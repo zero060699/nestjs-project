@@ -14,12 +14,15 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from '../auth-jwt/auth-jwt.guard';
+// import { JwtAuthGuard } from '../auth-jwt/auth-jwt.guard';
+import { Roles } from 'src/commons/roles/roles.decorator';
+import { JwtKeyAuthGuard } from 'src/commons/auth-keycloak/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  // @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtKeyAuthGuard)
+  // @Roles('admin')
   @Post()
   async create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     try {
@@ -30,7 +33,8 @@ export class UsersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtKeyAuthGuard)
+  // @Roles('offline_access')
   @Get()
   findAll() {
     try {
@@ -40,7 +44,8 @@ export class UsersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtKeyAuthGuard)
+  // @Roles('offline_access')
   @Get(':id')
   async findOne(@Param('id') id: string) {
     try {
@@ -50,7 +55,8 @@ export class UsersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtKeyAuthGuard)
+  // @Roles('admin')
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     try {
@@ -61,7 +67,8 @@ export class UsersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtKeyAuthGuard)
+  // @Roles('admin')
   @Delete(':id')
   async remove(@Param('id') id: string) {
     try {
@@ -72,7 +79,8 @@ export class UsersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtKeyAuthGuard)
+  // @Roles('admin')
   @Delete()
   async removeall() {
     await this.usersService.removeall();

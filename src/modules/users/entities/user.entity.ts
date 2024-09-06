@@ -1,17 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+// import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 // import { Exclude } from 'class-transformer';
+import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryKey()
   id: number;
 
-  @Column()
+  @Property()
   username: string;
 
-  @Column({ nullable: false })
+  @Property({ hidden: true })
   password: string;
 
-  @Column()
+  @Property()
   email: string;
 }
